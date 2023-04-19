@@ -1,6 +1,8 @@
 const passwordInput = document.querySelector(".pass-field input"),
+mailInput = document.querySelector(".mail-field input"),
 eyeIcon = document.querySelector(".pass-field i"),
-requirementsList = document.querySelectorAll(".requirement-list li");
+requirementsList = document.querySelectorAll(".requirement-list li"),
+registerBtn = document.querySelector("button");
 
 eyeIcon.addEventListener("click", () => {
     passwordInput.type = passwordInput.type === "password" ? "text" : "password"; //เปลี่ยนจาก text to password to text
@@ -26,4 +28,26 @@ passwordInput.addEventListener("keyup", (e) => {
             requirementsItem.classList.remove("valid");
         }
     });
+});
+
+registerBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevent the form from submitting
+    const form = document.querySelector("form");
+    const invalidRequirement = document.querySelector(".requirement-list li:not(.valid)");
+
+    // Regular expression for email validation
+    const emailRegex = /\S+@\S+\.\S+/;
+
+    // Check if email is valid
+    if (!emailRegex.test(mailInput.value)) {
+        alert("Invalid email!");
+        return;
+    }
+    // Check if password is valid
+    if (passwordInput.value.length < 8 || invalidRequirement) { 
+        alert("Invalid password!");
+        return;
+    }
+    // Submit the form if both email and password are valid
+    form.submit();
 });
